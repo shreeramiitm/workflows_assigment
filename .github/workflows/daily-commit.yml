@@ -10,20 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Modify log file by 24f2001743@ds.study.iitm.ac.in
         run: |
           echo "Daily update: $(date -u)" >> daily-log.txt
 
-      - name: Commit and Push Changes
+      - name: Commit and push changes
         run: |
-          git config --global user.name "devsync-bot"
-          git config --global user.email "24f2001743@ds.study.iitm.ac.in"
+          git config user.name "devsync-bot"
+          git config user.email "24f2001743@ds.study.iitm.ac.in"
           git add daily-log.txt
-          git commit -m "chore: daily update on $(date -u)" || echo "Nothing to commit"
-          git push
-        env:
-          # Use GitHub token to authorize push
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git commit -m "chore: daily update on $(date -u)" || echo "No changes to commit"
+          git push origin HEAD
+
